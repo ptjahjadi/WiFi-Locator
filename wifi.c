@@ -1,8 +1,5 @@
-/*COMP20005 Assignment 2 S2, 2018. The University of Melbourne
-By Patrick Tjahjadi for PRIVATE COMMERCIAL USE.
-You are not allowed to replicate and resell this code.
-
-Code can be modified as required against the marking criteria.*/
+/*WiFi-Locator. The University of Melbourne.
+By Patrick Tjahjadi */
 
 #include <stdio.h>
 #include <stdlib.h>
