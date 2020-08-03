@@ -1,5 +1,5 @@
-/*WiFi-Locator. The University of Melbourne.
-By Patrick Tjahjadi */
+/*Wi-Fi Locator. The University of Melbourne.
+Written in C by Patrick Tjahjadi. */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -30,7 +30,7 @@ typedef struct {
 typedef struct {
     double x_coord[MAX_COORDS];
     double y_coord[MAX_COORDS];
-    double signal_strength[MAX_WAPS][MAX_COORDS];
+    double signal_strength[MAX_COORDS][MAX_WAPS];
 } coordinates_t;
 
 void read_waps (int* num_waps, double* signal_strength, wap_t* sequence);
@@ -104,7 +104,7 @@ void assess_points(wap_t sequence, int* obs_points, int num_waps) {
             observations.signal_strength[i][j] = sequence.power[j] - fspl;
         }
         max_strength = observations.signal_strength[i][0];
-        for (j = 0; j < num_waps; j++) {
+        for (j = 1; j < num_waps; j++) {
             if (observations.signal_strength[i][j] > max_strength) {
                 max_strength = observations.signal_strength[i][j];
             }
@@ -152,9 +152,9 @@ void map_plotting(wap_t sequence, int num_waps) {
     int counter;
     printf("\nStage 4\n");
     printf("==========\n");
+    counter = 0;
     for (y = MAP_HEIGHT*2; y > 0; y -= 2) {
-        counter = 0;
-        for (x = 0; x < GRID_SIZE - 1; x++) {
+        for (x = 0; x < GRID_SIZE; x++) {
             for (i = 0; i < num_waps; i++) {
                 euclidean_distance = sqrt(pow((sequence.x_coord[i] - (x + CELL_CENTRE)), 2) + pow((sequence.y_coord[i] - (y - 1)), 2));
                 fspl = TWENTY_FSPL * log10(euclidean_distance) + TWENTY_FSPL * log10(sequence.freq[i]) + CONST_FSPL;
@@ -181,8 +181,9 @@ void map_plotting(wap_t sequence, int num_waps) {
             else {
                 printf(" ");    
             }
-            counter += 1;
+
         }
+        counter += 1;
         printf("\n");
     }
 }
